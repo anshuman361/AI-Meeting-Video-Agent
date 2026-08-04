@@ -10,6 +10,8 @@ openai-whisper==20250625
 
 torch==2.8.0
 torchaudio==2.8.0
+torchvision==0.28.0
+
 
 deep-translator==1.11.4
 
