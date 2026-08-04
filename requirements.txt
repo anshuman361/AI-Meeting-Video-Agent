@@ -1,53 +1,40 @@
-# ===============================
-# AI Meeting Video Agent
-# ===============================
+streamlit==1.60.0
+streamlit-extras==1.6.0
 
-# ---------- Streamlit ----------
-streamlit==1.37.1
-streamlit-extras==0.4.7
-watchdog==4.0.2
-
-# ---------- Audio / Video ----------
-yt-dlp==2025.1.26
+yt-dlp==2026.7.4
 pydub==0.25.1
+ffmpeg-python==0.2.0
 
-# ---------- Faster Whisper ----------
-faster-whisper==1.1.1
-ctranslate2==4.8.1
+openai-whisper==20250625
 
-# ---------- Torch ----------
-torch==2.4.1
-torchaudio==2.4.1
+torch==2.13.0
+torchaudio==2.11.0
+torchvision==0.28.0
 
-# ---------- Translation ----------
 deep-translator==1.11.4
 
-# ---------- LangChain ----------
-langchain==0.2.17
-langchain-core==0.2.43
-langchain-community==0.2.19
-langchain-chroma==0.1.4
-langchain-huggingface==0.0.3
-langchain-mistralai==0.1.12
+chromadb==1.5.9
 
-# ---------- Vector Database ----------
-chromadb==0.5.5
+langchain==1.3.14
+langchain-core==1.5.3
+langchain-community==0.4.2
+langchain-chroma==1.1.0
+langchain-huggingface==1.2.2
+langchain-mistralai==1.1.6
+langchain-text-splitters==1.1.2
 
-# ---------- Embeddings ----------
-sentence-transformers==3.0.1
-transformers==4.44.2
-huggingface-hub==0.24.6
+sentence-transformers==5.6.1
+transformers==5.14.1
+huggingface_hub==1.26.0
 
-# ---------- LLM ----------
-mistralai==1.0.2
-tiktoken==0.7.0
+mistralai==2.8.0
 
-# ---------- Utilities ----------
-python-dotenv==1.0.1
-numpy==1.26.4
-requests==2.32.3
-tqdm==4.66.5
+python-dotenv==1.2.2
 
-# ---------- PDF ----------
-reportlab==4.2.2
-fpdf2==2.7.9
+numpy==2.4.6
+
+reportlab==5.0.0
+fpdf2==2.8.7
+
+requests==2.34.2
+tqdm==4.70.0
