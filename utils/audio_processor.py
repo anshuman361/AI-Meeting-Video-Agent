@@ -10,37 +10,34 @@ os.makedirs(DOWNLOAD_DIR,exist_ok=True)
 def download_youtube_audio(url: str) -> str:
     output_path = os.path.join(DOWNLOAD_DIR, "%(title)s.%(ext)s")
     ydl_opts = {
-    "format": "bestaudio[ext=m4a]/bestaudio/best",
-    "noplaylist": True,
-    "outtmpl": output_path,
-
-    "http_headers": {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 Chrome/137.0 Safari/537.36"
-        )
-    },
-
-    "postprocessors": [
-        {
-            "key": "FFmpegExtractAudio",
-            "preferredcodec": "wav",
-            "preferredquality": "192",
-        }
-    ],
-
-    "quiet": True,
-    "nocheckcertificate": True,
-}
+        "format": "bestaudio/best",
+        "outtmpl": output_path,
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "wav",
+                "preferredquality": "192",
+            }
+        ],
+        "quiet": True,
+        "restrictfilenames": False,
+        "windowsfilenames": True,
+        "extractor_args": {
+            "youtube": {
+                # android/ios clients skip the JS-runtime signature challenge
+                "player_client": ["android", "ios", "web"],
+            }
+        },
+        "http_headers": {
+            "User-Agent": "com.google.android.youtube/19.29.37 (Linux; U; Android 14) gzip"
+        },
+    }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
-        filename = os.path.splitext(
-    ydl.prepare_filename(info)
-)[0] + ".wav"
+        raw_filename = ydl.prepare_filename(info)
+        filename = os.path.splitext(raw_filename)[0] + ".wav"
+      #  filename = ydl.prepare_filename(info).replace(".webm", ".wav").replace(".m4a", ".wav")
     return filename
-
-#print(download_youtube_audio("https://youtu.be/hvGcN3P-94M?si=jlB81_4GffXwO3Kk"))
-
 
 def convert_to_wav(input_path: str) -> str:
     """Convert any audio/video file to WAV format using pydub."""
