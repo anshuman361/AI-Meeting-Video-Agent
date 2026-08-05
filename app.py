@@ -261,6 +261,11 @@ if run_clicked:
 # --------------------------------------------------------------------------
 result = st.session_state.result
 
+# --------------------------------------------------------------------------
+# Results & Views
+# --------------------------------------------------------------------------
+result = st.session_state.result
+
 if result:
     st.markdown(f"## 📌 {result['title']}")
     st.markdown(
@@ -270,8 +275,20 @@ if result:
     )
     st.write("")
 
-    tab_summary, tab_actions, tab_decisions, tab_questions, tab_transcript, tab_chat = st.tabs(
-        ["📋 Summary", "✅ Action Items", "🔑 Key Decisions", "❓ Open Questions", "📝 Transcript", "💬 Chat"]
+    # 1. Initialize active tab state if not present
+    if "active_tab" not in st.session_state:
+        st.session_state.active_tab = "📋 Summary"
+
+    # 2. Tab Navigation using Radio Buttons
+    tab_options = ["📋 Summary", "✅ Action Items", "🔑 Key Decisions", "❓ Open Questions", "📝 Transcript", "💬 Chat"]
+    
+    selected_tab = st.radio(
+        "Navigation",
+        tab_options,
+        index=tab_options.index(st.session_state.active_tab) if st.session_state.active_tab in tab_options else 0,
+        horizontal=True,
+        label_visibility="collapsed",
+        key="active_tab"  # Persists selection directly in session state
     )
 
     def render_list_or_text(content):
@@ -281,32 +298,33 @@ if result:
         else:
             st.markdown(content)
 
-    with tab_summary:
+    # 3. Render view based on persistent selection
+    if selected_tab == "📋 Summary":
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
         st.markdown(result["summary"])
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with tab_actions:
+    elif selected_tab == "✅ Action Items":
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
         render_list_or_text(result["action_items"])
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with tab_decisions:
+    elif selected_tab == "🔑 Key Decisions":
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
         render_list_or_text(result["key_decisions"])
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with tab_questions:
+    elif selected_tab == "❓ Open Questions":
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
         render_list_or_text(result["open_questions"])
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with tab_transcript:
+    elif selected_tab == "📝 Transcript":
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
         st.text_area("Full transcript", result["transcript"], height=400, label_visibility="collapsed")
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with tab_chat:
+    elif selected_tab == "💬 Chat":
         st.caption("Ask anything about this video — answers are grounded in the transcript via RAG.")
 
         for msg in st.session_state.messages:
@@ -315,6 +333,9 @@ if result:
 
         if prompt := st.chat_input("Ask a question about the video..."):
             st.session_state.messages.append({"role": "user", "content": prompt})
+            
+            # Immediately trigger rerun after adding user message to state
+            # so the user prompt shows up instantly without switching tabs
             with st.chat_message("user"):
                 st.markdown(prompt)
 
@@ -324,9 +345,9 @@ if result:
                         answer = ask_question(result["rag_chain"], prompt)
                     except Exception as e:
                         answer = f"⚠️ Error answering question: {e}"
-                st.markdown(answer)
+                    st.markdown(answer)
             st.session_state.messages.append({"role": "assistant", "content": answer})
-
+            st.rerun()
 else:
     st.markdown('<div class="content-card">', unsafe_allow_html=True)
     st.markdown("### 👋 Get started")
