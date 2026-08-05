@@ -25,7 +25,7 @@ def download_youtube_audio(url: str) -> str:
         "extractor_args": {
             "youtube": {
                 # android/ios clients skip the JS-runtime signature challenge
-                "player_client": ["android", "ios", "web"],
+                "player_client": ["android", "ios", "web","mweb", "tv"],
             }
         },
         "http_headers": {
