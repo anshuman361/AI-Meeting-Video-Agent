@@ -11,6 +11,9 @@ from datetime import datetime
 from main import run_pipeline
 from core.rag_engine import ask_question
 
+# --------------------------------------------------------------------------
+# Page config
+# --------------------------------------------------------------------------
 st.set_page_config(
     page_title="AI Video Assistant",
     page_icon="🎬",
@@ -101,6 +104,22 @@ st.markdown("""
         border-radius: 10px 10px 0 0;
         padding: 0.5rem 1.1rem;
         background: rgba(255,255,255,0.03);
+    }
+
+    /* Lock the sidebar permanently open — hide the collapse control entirely */
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
+    section[data-testid="stSidebar"] {
+        display: block !important;
+        visibility: visible !important;
+        transform: none !important;
+        min-width: 320px !important;
+        max-width: 320px !important;
+        width: 320px !important;
+    }
+    section[data-testid="stSidebar"][aria-expanded="false"] {
+        margin-left: 0px !important;
     }
 </style>
 """, unsafe_allow_html=True)

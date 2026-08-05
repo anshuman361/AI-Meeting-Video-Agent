@@ -8,7 +8,7 @@ faster_whisper==1.1.1
 torch==2.8.0
 torchaudio==2.8.0
 torchvision==0.23.0
-protobuf>=4.25.3
+protobuf>=4.25.3,<5.0.0
 deep-translator==1.11.4
 chromadb==1.5.9
 starlette<0.38.0
