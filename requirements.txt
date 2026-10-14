@@ -5,6 +5,7 @@ pydub==0.25.1
 audioop-lts==0.2.2
 ffmpeg-python==0.2.0
 faster_whisper==1.1.1
+av==18.1.0
 torch==2.8.0
 torchaudio==2.8.0
 torchvision==0.23.0
